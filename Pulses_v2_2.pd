@@ -363,7 +363,7 @@
 #X obj -1092 -22 f;
 #X obj -1079 2 + 1;
 #X obj -1093 28 mod 2;
-#X obj -1092 53 select 0;
+#X obj -1092 53 select 1;
 #X connect 0 0 15 0;
 #X connect 1 0 17 0;
 #X connect 2 0 18 0;
