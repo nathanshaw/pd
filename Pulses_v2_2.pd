@@ -400,7 +400,7 @@
 #X msg -946 159;
 #X msg -887 -82 \$1 \$2;
 #X obj -546 -559 + 300000;
-#X obj -887 -54 random 300 350;
+#X obj -887 -54 random 350;
 #X connect 0 0 15 0;
 #X connect 1 0 17 0;
 #X connect 2 0 18 0;
