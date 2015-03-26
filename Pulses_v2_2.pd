@@ -392,6 +392,8 @@
 #X obj -467 -504 random 100;
 #X obj -546 -469 * 30000;
 #X obj -441 -460 print;
+#X obj -511 -507 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
 #X connect 0 0 15 0;
 #X connect 1 0 17 0;
 #X connect 2 0 18 0;
@@ -768,6 +770,7 @@
 #X connect 340 0 344 0;
 #X connect 341 0 340 0;
 #X connect 344 0 348 0;
+#X connect 344 0 351 0;
 #X connect 345 0 328 0;
 #X connect 346 0 329 0;
 #X connect 347 0 331 0;
@@ -776,3 +779,4 @@
 #X connect 348 0 349 0;
 #X connect 348 0 350 0;
 #X connect 349 0 347 0;
+#X connect 351 0 348 0;
