@@ -355,7 +355,7 @@
 #X obj -1093 75 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj -1172 10 r b1;
-#X obj -1093 30 r b9;
+#X obj -1092 29 r b9;
 #X obj -1001 50 r b2;
 #X obj -923 53 r b10;
 #X obj -837 49 r b3;
@@ -392,7 +392,7 @@
 -1 -1;
 #X obj -635 -409 print;
 #X obj -596 -377 *~ 10;
-#X obj -1093 53 > 100;
+#X obj -1092 53 select 127;
 #X connect 0 0 15 0;
 #X connect 1 0 17 0;
 #X connect 2 0 18 0;
