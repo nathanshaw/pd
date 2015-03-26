@@ -393,7 +393,7 @@
 #X obj -511 -507 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj -635 -409 print;
-#X obj -546 -469 * 300;
+#X obj -546 -469 * 9;
 #X connect 0 0 15 0;
 #X connect 1 0 17 0;
 #X connect 2 0 18 0;
