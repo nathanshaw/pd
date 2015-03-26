@@ -403,7 +403,9 @@
 #X obj -859 -317 t b b;
 #X obj -844 -39 print;
 #X msg -809 -175 seed $ran;
-#X obj -869 -140 s $ran;
+#X obj -868 -135 pack s f;
+#X msg -906 -160 seed;
+#X obj -868 -108 print;
 #X connect 0 0 15 0;
 #X connect 1 0 17 0;
 #X connect 2 0 18 0;
@@ -801,8 +803,10 @@
 #X connect 352 3 354 1;
 #X connect 353 0 355 0;
 #X connect 354 0 355 1;
-#X connect 355 0 361 0;
+#X connect 355 0 361 1;
 #X connect 357 0 358 0;
 #X connect 358 0 352 0;
 #X connect 358 1 360 0;
 #X connect 360 0 341 0;
+#X connect 361 0 363 0;
+#X connect 362 0 361 0;
