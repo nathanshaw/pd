@@ -801,6 +801,7 @@
 #X connect 352 0 353 1;
 #X connect 353 0 357 1;
 #X connect 355 0 356 0;
-#X connect 356 0 350 0;
+#X connect 356 0 358 0;
+#X connect 356 1 350 0;
 #X connect 357 0 359 0;
 #X connect 358 0 357 0;
