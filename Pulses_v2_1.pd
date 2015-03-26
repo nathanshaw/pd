@@ -399,14 +399,16 @@
 #X obj -828 384;
 #X obj -859 -348 loadbang;
 #X obj -859 -317 t b b;
-#X obj -868 -135 pack s f;
+#X obj -906 -133 pack s f;
 #X msg -906 -160 seed;
-#X obj -888 -26 print;
+#X obj -907 -50 print;
 #X obj -827 86;
 #X msg -347 -582;
 #X msg -946 159;
-#X msg -887 -82 \$1 \$2;
-#X obj -887 -54 random 100;
+#X msg -906 -106 \$1 \$2;
+#X obj -906 -78 random 100;
+#X obj -930 -105 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
 #X connect 0 0 15 0;
 #X connect 1 0 17 0;
 #X connect 2 0 18 0;
@@ -807,6 +809,8 @@
 #X connect 356 0 358 0;
 #X connect 356 1 350 0;
 #X connect 357 0 363 0;
+#X connect 357 0 365 0;
 #X connect 358 0 357 0;
 #X connect 363 0 364 0;
 #X connect 364 0 359 0;
+#X connect 365 0 364 0;
