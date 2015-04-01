@@ -1,0 +1,461 @@
+use webcam for next pi project
+
+//converts filt to mp3
+lame -v somefile.wav somefile.mp3
+
+to list audio and midi devices in pd type pd -listdev, the device number can be used to manually start the audio and such
+
+terminal top command : like activity monitor
+
+you can set gain fro dac
+
+GenX generates wavetables : gen9 : 
+
+you use a phasor to drive a gen device :
+
+phasor => gen9 => dac;
+
+accepts multiples of 3 for coefficients
+
+use camera with the pi to generate sound
+
+adaptive -how many samples it processes at once
+
+cool-retro-term : download
+
+use -c1 as flag for mono on pi
+
+sine waves are the most expensive oscillators in chuck
+
+To Do:
+
+test audio
+remove clays hack to send IP address
+
+Login Info :
+
+login : pi
+Pw : raspberry
+
+raspian build
+
+Cirrus :
+installed new raspian image
+
+home ip address is 10.0.1.16
+
+
+My-Stomp :
+raspian build 
+IP at home of : 10.0.1.16
+disabled power saving for wifi
+e-mails address on startup
+changed keyboard to US
+added auto login
+
+
+AV_ENS Pi:
+
+Home : 10.0.1.19
+CASecure : 10.40.23.58
+or 10.0.1.19
+10.40.23.58
+
+Satellite PI :
+ccrma, temppwd
+eithernet : 192.168.105.106
+home : 192.168.10.1
+CAsecure : 192.168.10.1
+
+
+ LADY ADA
+Updating alsa options
+
+
+We'll edit the audio system configuration file with 
+ sudo nano /etc/modprobe.d/alsa-base.conf
+For all but the most recent Raspbian releases, look for the line that reads:
+ #options snd-usb-audio index=0
+Change this to:
+ options snd-usb-audio index=0
+Note we removed the # at the start of the line.
+
+For the latest Raspbian versions, look for this line instead:
+ options snd-usb-audio index=-2
+There's no # to remove in this case, just change the index from -2 to 0: 
+options snd-usb-audio index=0
+
+
+
+Auto Login
+How to automatically login to Raspberry Pi console as pi user.
+
+Step 1: Open a terminal session and edit inittab file.
+
+sudo nano /etc/inittab
+Step 2: Disable the getty program.
+Navigate to the following line in inittab
+1:2345:respawn:/sbin/getty 115200 tty1
+
+And add a # at the beginning of the line to comment it out
+#1:2345:respawn:/sbin/getty 115200 tty1
+
+Step 3: Add login program to inittab.
+Add the following line just below the commented line 1:2345:respawn:/bin/login -f pi tty1 </dev/tty1 >/dev/tty1 2>&1
+This will run the login program with pi user and without any authentication
+
+Step 4: Save and Exit.
+Press Ctrl+X to exit nano editor followed by Y to save the file and then press Enter to confirm the filename.
+Reboot the pi and it will boot straight on to the shell prompt pi@raspberrypi without prompting you to enter username or password. But this isn't enough; you need your Pi to automatically run some command or a script. which is explained in the next section.
+
+Run a Script after login
+
+How to automatically run a script after login.
+Step 1: Open a terminal session and edit the file /etc/profile
+sudo nano /etc/profile
+Step 2: Add the following line to the end of the file
+. /home/pi/your_script_name.sh
+replace the script name and path with correct name and path of your start-up script.
+Step 3: Save and Exit
+Press Ctrl+X to exit nano editor followed by Y to save the file.
+
+Startup Mailer Script : rename as startup_mailer.py and add your own login info, make a scripts folder in your pi directory that this lives in. make sure to make the script executable by entering the following command :  sudo chmod +x startup_mailer.py 
+import subprocess
+import smtplib
+import socket
+from email.mime.text import MIMEText
+import datetime
+# Change to your own account information
+to = '<your email address'
+gmail_user = '<your gmail user name'
+gmail_password = '<your gmail password'
+smtpserver = smtplib.SMTP('smtp.gmail.com', 587)
+smtpserver.ehlo()
+smtpserver.starttls()
+smtpserver.ehlo
+smtpserver.login(gmail_user, gmail_password)
+today = datetime.date.today()
+# Very Linux Specific
+arg='ip route list'
+p=subprocess.Popen(arg,shell=True,stdout=subprocess.PIPE)
+data = p.communicate()
+split_data = data[0].split()
+ipaddr = split_data[split_data.index('src')+1]
+my_ip = 'Your Pi's ip address is %s' %  ipaddr
+msg = MIMEText(my_ip)
+msg['Subject'] = 'IP For RaspberryPi on %s' % today.strftime('%b %d %Y')
+msg['From'] = gmail_user
+msg['To'] = to
+smtpserver.sendmail(gmail_user, [to], msg.as_string())
+smtpserver.quit()
+
+
+Disable WIFI Power Saving
+
+If you find that your wireless connection is spotty and unpredictable try disabling WIFI power saving.Do the following:
+
+– Type
+
+
+sudo nano /etc/modprobe.d/8192cu.conf
+to create a new config file
+– Paste the following in to the file:
+
+
+# Disable power saving
+options 8192cu rtw_power_mgnt=0 rtw_enusbss=1 rtw_ips_mode=1
+- Save the file
+- Type
+
+
+sudo reboot
+to reboot your Pi
+
+The following link provides more information on getting setup on a wired or WIFI network.
+
+Generating New SSH Keys
+
+September 12, 2013 – 9:55 AM
+Sometimes when we’re doing work, we end up changing an SSH key. You then access the host using something like this:
+
+ssh krypted@10.10.10.10
+
+When accessing the host you then get a warning similar to the following if the key changed:
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED! @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+It is also possible that a host key has just been changed.
+The fingerprint for the ECDSA key sent by the remote host is
+aa:bb:cc:dd:ee:ff:00:11:22:33:00:11:22:33:44:55.
+Please contact your system administrator.
+Add correct host key in /home/remi/.ssh/known_hosts to get rid of this message.
+Offending ECDSA key in /home/remi/.ssh/known_hosts:1
+In case you know the host identification has changed, you can safely discard this warning.
+
+To fix you can edit the ~/.ssh/known_hosts file and remove the offending line (usually the number in the Offending ECDSA line) or just regenerate the key using ssh-keygen, which will automatically edit the known_hosts file for you:
+
+ssh-keygen -R 10.10.10.10
+
+Edit wpa_supplicant.conf
+
+wpa_supplicant.conf is a configuration file for wpa_supplicant, a piece of software used to implement WPA and other security protocols that WiFi networks implement.
+
+Before continuing on, you should know what kind of security protocol (WPA, WPA2, WPA-PSK, WPA2-PSK, etc) your network requires. And, obviously, you’ll need to know the name (SSID) of your network as well.
+
+Open wpa_supplicant.conf in Nano with this command:
+
+pi@raspberrypi ~ $ sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+
+Lot’s of typing! For lazy folk, don’t forget you can press Tab to ask the terminal to try to finish a directory location for you.
+
+By default, wpa_supplicant.conf should have two lines at the top:
+
+
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+Leave those be, we’ll be adding some extra information below them.
+
+Now it’s time to “choose your own adventure”. What, exactly, you fill this file out with depends on your network’s authentication protocols. Here are a few example configurations for the file:
+
+Open Authentication With No Encryption
+
+This is about as basic as it gets. If you’re trying to connect to an open network, all you need to know is the SSID:
+
+
+network={
+    ssid="yourNetworkSSID"
+    key_mgmt=NONE
+}
+
+Just replace yourNetworkSSID with your WiFi network’s name.
+
+Network with Authentication (WPA, WPA2-PSK, etc)
+
+If your network does require authentication with a passkey, you’ll need to enter two parameters:
+
+
+network={
+    ssid="yourNetworkSSID"
+    psk="yourNetworkPassword"
+}
+
+Again, pretty bare bones. This should work for networks using WPA and WPA2-PSK, and should be agnostic to the cipher (TKIP, CCMP).
+
+Non-Broadcasting Network
+
+If your network does not broadcast its SSID, you’ll need to addscan_ssid=1 to the list. For example, here’s a configuration for a hiddenopen network with no authentication:
+
+
+
+This will connect to a hidden network named PiFi with open authentication.
+
+And the Rest…
+
+There are all sorts of options to be added to this configuration list. You can enforce which cipher is accepted, set up priorities, private keys, etc. For a really great breakdown of everything you can add to wpa_supplicant.confcheck out this page.
+
+After editing wpa_supplicant.conf make sure to save, and exit. If you hitCTRL+X it’ll prompt you to save before you exit.
+
+The final step is restarting the network interface. Cross your fingers, and hope that all of the settings here are correct, then jump the penultimate page.
+
+TroubleShooting WiFi
+
+1) Check that the wifi stick is being picked up at all
+Run a 'lsusb' in a terminal and you should see your WiFi stick in the output of the command.
+CODE: SELECT ALL
+    Bus 001 Device 002: ID 0424:9512 Standard Microsystems Corp.
+    Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+    Bus 001 Device 003: ID 0424:ec00 Standard Microsystems Corp.
+    Bus 001 Device 005: ID 0846:9041 NetGear, Inc. WNA1000M 802.11bgn [Realtek RTL8188CUS]
+
+If you can see it, it means that at least the stick is most likely working.
+If you can't see it, then the stick is not being picked up.
+If you're using a powered hub, try the stick in another computer
+If you're NOT using a powered hub, try a powered hub first.
+
+
+2) Check that the modules loaded
+Run a lsmod and see if the module for the stick is loaded. The module name will change depending on the stick that is being used.
+For example, if you have the above RTL8188CUS wifi adapter, then lsmod will show the following output - Notice the 8192cu module is loaded.
+CODE: SELECT ALL
+    Module                  Size  Used by
+    i2c_dev                 4562  0
+    snd_bcm2835            12859  0
+    snd_pcm                60411  1 snd_bcm2835
+    snd_seq                44988  0
+    snd_timer              16257  2 snd_pcm,snd_seq
+    snd_seq_device          4265  1 snd_seq
+    snd                    41809  5 snd_bcm2835,snd_timer,snd_pcm,snd_seq,snd_seq_device
+    snd_page_alloc          3176  1 snd_pcm
+    spidev                  4259  0
+    8192cu                458649  0
+    leds_gpio               1920  0
+    led_class               2329  1 leds_gpio
+    spi_bcm2708             3974  0
+    i2c_bcm2708             3108  0
+
+
+For RT5370 sticks, you'll see a rt2800usb module in there instead.
+
+If the module is there, then the drivers are being loaded correctly.
+
+3) Check the WiFi NIC
+Since the stick is there and drivers are loaded, check to make sure the stick is definitely being picked up
+
+Run an ifconfig -a and check the output. You should see a 'wlan0' in the output, similar to this
+CODE: SELECT ALL
+wlan0 Link encap:Ethernet HWaddr 00:00:aa:11:22:33
+BROADCAST MULTICAST MTU:1500 Metric:1
+RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+TX packets:0 errors:0 dropped:0 overruns:0 carrier0
+collisions:0 txqueuelen:1000
+RX bytes:0 (0.0 B) TX bytes (0.0 B)
+
+
+If not then you may be missing some firmware for your device.
+The firmware packages for the more common devices are -
+firmware-ralink for Ralink devices (RT5370/RT3070/etc.)
+firmware-realtek for Realtek devices (RTL8188CUS/etc.)
+firmware-atheros (Need to check this) for Atheros devices.
+
+apt-get install <firmware-package> will install the firmware on Raspbian.
+Once you've installed the firmware, unplug and plug the stick back in to see if ifconfig -a can see it now.
+If not, try a reboot as well.
+
+4) Check the WiFi configuration
+Now this is where it starts getting complicated.
+If you can see wlan0 when you run ifconfig -a but you can't get online, you'll need to make sure the adapter is getting an IP address, and is getting connected to a WiFi Network
+For Raspbian -
+Check /etc/network/interfaces and ensure that you have the WiFi details configured.
+This can be done in either the interfaces file, or it can be linked to another file via the wpa-roam or wpa-conf parameters in /etc/network/interfaces
+Verify the details for the network are correct, SSID and PSK need to be exactly right for the WiFi NIC to connect to a network.
+If you have changed the details, run sudo ifdown wlan0 && sudo ifup wlan0 to use the new settings.
+
+These settings will be applied when the wifi starts up.
+
+4a) WiFi Not Connecting on Startup
+If the WiFi works when you run ifup wlan0, but doesn't come up when you reboot the Pi, we'll need to check the file /etc/network/interfaces again
+Look for any lines that have auto at the beginning, and see if you see one that has 'auto wlan0'
+If not, then add that line in. This line directs the Pi to connect to bring up the WiFi NIC automatically, which in turns triggers the WiFi NIC to connect to the WiFi network
+
+4b) How do I configure the WiFi Settings
+By default, Raspbian has in /etc/network/interfaces this line -
+CODE: SELECT ALL
+wpa-roam /etc/wpa-supplicant/wpa_supplicant.conf
+
+
+The contents of the file should look something like this
+CODE: SELECT ALL
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+network={
+        ssid="network-name"
+        psk="network password"
+}
+
+If it doesn't, or if it has the wrong details, updating the details here will let the WiFi Adapter connect
+
+4c) How do I configure WiFi to use a Static IP address
+In /etc/network/interfaces, there should be these lines
+CODE: SELECT ALL
+auto wlan0
+iface wlan0 inet manual
+wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
+
+
+to make it use a static IP address, we need to add a few lines, and change dhcp to static, and then it should look like this -
+CODE: SELECT ALL
+auto wlan0
+iface wlan0 inet manual
+wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
+
+iface default inet static
+address 10.1.1.2
+netmask 255.255.255.0
+gateway 10.1.1.1
+
+
+That block will bring up wlan0 on startup, connect to the wifi network that's detailed in wpa_supplicant.conf, and set an address of 10.1.1.2
+
+4d) Make Sure The WiFi Network Can Be Detected
+If the Pi still won't connect, make sure the Pi is actually seeing the WiFi Network
+
+This can be done with the wpa_cli command, but this needs to be run as root
+CODE: SELECT ALL
+wpa_cli scan && sleep 5 && wpa_cli scan_results
+
+
+That should show a list of available WiFi networks, and if yours isn't on the list, then you may need to adjust the location of the Pi or the WiFi router.
+---------------------------------------------------------------------------------------------
+Once you've gone through all of these steps, you should be able to get online !
+
+Setting up Wifi with the Command Line Setting up WiFi in Occidentalis, is also pretty straight forward. You just need to add the name of your wireless network (its SSID) and your password to a configuration file. Step 1. Boot the Raspberry Pi without the WiFi adapter plugged in. Step 2. Open a Terminal session by clicking on the LXTerminal icon, and enter the following command into it: TThhiiss ttuuttoorriiaall wwoorrkkss bbeesstt iiff yyoouurr rroouutteerr iiss bbrrooaaddccaassttiinngg tthhee SSSSIIDD.. MMaakkee ssuurree yyoouu hhaavvee ""BBrrooaaddccaasstt SSSSIIDD"" sseett uupp oonn yyoouurr rroouutteerr!! TThhiiss mmaayy nnoott wwoorrkk wwiitthh ""pprriivvaattee"" SSSSIIDD sseettuuppss sudo nano /etc/network/interfaces auto lo iface lo inet loopback iface eth0 inet dhcp allow-hotplug wlan0 auto wlan0 © Adafruit Industries http://learn.adafruit.com/adafruits-raspberry-pi-lesson-3-network-setup Page 12 of 17If you are using a 'hidden' SSID, try the following (hat-tip to http://www.dafinga.net/2013/01/how-to-setup-raspberry-pi-withhidden.html (http://adafru.it/cfM)) Step 3. This opens an editor screen of the wifi configuration file you need to change. The two places where you need to make a change are on the last two lines. Change the file so that it looks like this: auto wlan0 iface wlan0 inet dhcp wpa-ssid "ssid" wpa-psk "password" auto lo iface lo inet loopback iface eth0 inet dhcp auto wlan0 allow-hotplug wlan0 iface wlan0 inet dhcp wpa-scan-ssid 1 wpa-ap-scan 1 wpa-key-mgmt WPA-PSK wpa-proto RSN WPA wpa-pairwise CCMP TKIP wpa-group CCMP TKIP wpa-ssid "My Secret SSID" wpa-psk "My SSID PSK" iface default inet dhcp © Adafruit Industries http://learn.adafruit.com/adafruits-raspberry-pi-lesson-3-network-setup Page 13 of 17Of course, you should put in your network and password! Note that you need to keep the double-quote characters around your wireless network name and password. This kind of editor does not let you use the mouse. Instead, use the cursor keys to move around the file. Step 4. When you have finished press [ctrl]x. This will ask if you want to save the modified files. Press 'Y' and then Return to save the file with the same name. Step 5. © Adafruit Industries http://learn.adafruit.com/adafruits-raspberry-pi-lesson-3-network-setup Page 14 of 17Shut down your Raspberry Pi, plug the WiFi adapter in and start it up again. You should find that the Raspberry Pi connects using the WiFi adapter as it boots up. © Adafruit Industries http://learn.adafruit.com/adafruits-raspberry-pi-lesson-3-network-setup Page 15 of 17Finding Your Pi's IP Address You can find the IP address of your computer, either by opening the WiFi setup tool again. The IP address will appear at the bottom of the Window. If you are using Occidentals, or you want to do this over a command line terminal. Open up a LXTerminal window and type the following command: Next to the wlan0 entry you will see inet addr: 192.168.1.10 which is the IP address of the Raspberry Pi. Remember! If your IP address starts with 192.168 or 10.0 then its an internal address - that means you can get OUT to the Internet but you cannot have someone outside your home or network reach your Pi via the IP address. This is important if you want to have a webserver running on a Pi that outside people can reach. In general, its much safer to keep your Pi on an internal network so it can't be hacked as easily! sudo ifconfig © Adafruit Industries http://learn.adafruit.com/adafruits-raspberry-pi-lesson-3-network-setup Page 16 of 17Test and Configure If you have X running, open the Midori web browser and navigate to the URL of your favourite electronics supplier. If you are using a command line, the ping command can be used to see if you are reaching the internet. Try ping google.com or ping adafruit.com to check if you can reach those sites! Fixing WiFI Dropout Issues If you find your module 'drops out' from time to time, you can fix it fairly easily with a command line fix (thanks perseus286 (http://adafru.it/cL5)!) Create and edit a new file in /etc/modprobe.d/8192cu.conf sudo nano /etc/modprobe.d/8192cu.conf and paste the following in # Disable power saving options 8192cu rtw_power_mgnt=0 rtw_enusbss=1 rtw_ips_mode=1 Then reboot with sudo reboot
+
+Arduino for Pi
+
+The Arduino IDE is available for the Raspberry Pi. It is a little bit slow, but usable. Use these commands to install it:
+
+
+$ sudo apt-get update
+$ sudo apt-get install arduino
+At the time of writing, this installs version 1.0.1, which is not the latest version but will suit the Arduino Uno; it will not, however, work for newer boards like the Leonardo and Due. They can still be used with the Raspberry Pi, but you will need some other computer to program them before connecting them to the Raspberry Pi.
+
+After installation, you will find an Electronics group in your Programs menu (Figure 10-1).
+
+Figure 10-1. The Arduino IDE running on Raspberry Pi
+The Arduino IDE connects to the Raspberry Pi through its USB cable to program it. This connection also requires that the serial console be disabled. You can follow “Freeing the Serial Port” to do this, but a second option is to run a script created by Kevin Osborn that both disables the serial console and configures the serial ports and Arduino profiles necessary to get things running. This has the advantage that it also sets up the aLaMode board to be ready for use (“Getting Started with an aLaMode Board and a Raspberry Pi”).
+
+To download and run this script, follow these steps:
+
+
+$ wget https://github.com/wyolum/alamode/blob/master/bundles
+  /alamode-setup.tar.gz?raw=true -O alamode-setup.tar.gz
+$ tar -xvzf alamode-setup.tar.gz
+$ cd alamode-setup
+$ sudo ./setup
+If you have not previously disabled your serial console and are relying on the preceding script to do it, then you will need to reboot for this change to take effect.
+
+
+$ sudo reboot
+You can now connect your Arduino to your Raspberry Pi. From the Tools menu, select Board and set the board type to Arduino Uno. Then, from the Serial Port option, select /dev/ttyACM0. To upload a test program that will make the LED on the Arduino blink, select the File menu and then click “Examples, Basic,” and finally click Blink. Click on the right-arrow on the toolbar to begin the compile and upload process. If all is well, you should see a “Done Uploading” message in the status area at the bottom of the IDE window.
+
+If you find that the device ttyACM0 is not listed even though your Arduino is plugged in, try restarting the Arduino IDE. If that doesn’t work, then you may have to reboot your Raspberry Pi. Leave the Arduino connected while you reboot and restart the Arduino IDE.
+
+Discussion
+
+To get the most out of using Arduino with Raspberry Pi, you need to learn a little Arduino programming. You may find the book Programming Arduino: Getting Started with Sketches (McGraw-Hill/Tab Books), by yours truly, helpful.
+
+You can, however, make use of an Arduino without needing to write any code on the Arduino side, using a project called PyFirmata. “Setting up PyFirmata to Control an Arduino from a Raspberry Pi” explains how to use PyFirmata.
+
+See Also
+
+
+The Arduino IDE setup script came from the blog Bald Wisdom.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
