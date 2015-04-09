@@ -1,35 +1,35 @@
 #!/bin/bash
 
+#   To use follow the following steps
+#
+#first download sshpass, on the pi this can be done by typing "sudo apt-get install sshpass" into the command line
+#
+#Next comment out the line after your name as you dont need to send the file to yourself
+#
+#enter in the name of the file you want to transfer inbetween the quotes after composition_name
+#
+#
+#This file has to be made executable by typing "chmod u+rwx AVENS_scp.sh" in the command line from within the folder that this file is kept
 
-#to edit the script comment out your name and change the file name after /home/pi/pd to your own name and run from command line terminal
-#The file also has to be made executable using the chmod +x AVENS_scp.sh (while in the same folder as the script)
+#Thats it your good to go!
+
 #to run me type ./AVENS_scp.sh in terminal while within the same folder
 
-$composition_name = "nathan_pulses.pd"
-
-clear
+composition_name=""
 
 #Clay
-#echo "scp /home/pi/pd/nathan_pulses.pd pi@10.1.101:/home/pi/pd"
-#echo "r"
+sshpass -p "r" scp  /home/pi/pd/$composition_name pi@10.0.1.101:/home/pi/pd
 #Elizabeth  
-#echo "scp /home/pi/pd/nathan_pulses.pd pi@10.1.201:/home/pi/pd"
-#echo "r"
+sshpass -p "r" scp  /home/pi/pd/$composition_name pi@10.0.1.201:/home/pi/pd
 #Mint
-#echo "scp /home/pi/pd/nathan_pulses.pd pi@10.1.202:/home/pi/pd"
-#echo "r"
+sshpass -p "r" scp  /home/pi/pd/$composition_name pi@10.0.1.202:/home/pi/pd
 #Davy
-#echo "scp /home/pi/pd/nathan_pulses.pd pi@10.1.203:/home/pi/pd"
-#echo "r"
+sshpass -p "r" scp  /home/pi/pd/$composition_name pi@10.0.1.203:/home/pi/pd
 #Jason
-#echo "scp /home/pi/pd/nathan_pulses.pd pi@10.1.204:/home/pi/pd"
-#echo "r"
+sshpass -p "r" scp  /home/pi/pd/$composition_name pi@10.0.1.204:/home/pi/pd
 #Ryan
-#echo "scp /home/pi/pd/nathan_pulses.pd pi@10.1.205:/home/pi/pd"
-#echo "r"
+sshpass -p "r" scp  /home/pi/pd/$composition_name pi@10.0.1.205:/home/pi/pd
 #Nathan
-echo "scp /home/pi/pd/$composition_name pi@10.1.207:/home/pi/pd"
-echo "r"
+sshpass -p "r" scp  /home/pi/pd/$composition_name pi@10.0.1.206:/home/pi/pd
 #Martin
-#echo "scp /home/pi/pd/nathan_pulses.pd pi@10.1.207:/home/pi/pd"
-#echo "r"
+sshpass -p "r" scp  /home/pi/pd/$composition_name pi@10.0.1.207:/home/pi/pd
