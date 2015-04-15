@@ -400,7 +400,8 @@
 #X obj -600 390 *~;
 #X obj -553 310 sig~;
 #X obj -558 263 r k6;
-#X obj -553 283 + 0.03;
+#X obj -523 298 + 0.1;
+#X obj -556 287 * 0.6;
 #X connect 0 0 199 0;
 #X connect 1 0 203 0;
 #X connect 2 0 207 0;
@@ -671,5 +672,6 @@
 #X connect 247 0 230 0;
 #X connect 248 0 245 1;
 #X connect 248 0 247 1;
-#X connect 249 0 250 0;
+#X connect 249 0 251 0;
 #X connect 250 0 248 0;
+#X connect 251 0 250 0;
